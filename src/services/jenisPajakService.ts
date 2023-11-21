@@ -2,12 +2,12 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-type CreatePajakParam = {
+type CreateJenisPajakParam = {
   nama_pajak: string
   deskripsi_pajak: string
   tata_cara_hitung_pajak: string
 }
-export const createJenisPajak = async (data: CreatePajakParam) => {
+export const createJenisPajak = async (data: CreateJenisPajakParam) => {
   // NOTE: bikin request validasi kalau keburu
 
   // NOTE: mapping
