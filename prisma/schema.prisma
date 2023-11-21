@@ -1,0 +1,314 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Negara {
+  id         String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  kodeNegara String @map("kode_negara")
+  namaNegara String @map("nama_negara")
+
+  @@map("negara")
+}
+
+model Provinsi {
+  id   String @id @db.Uuid
+  nama String
+
+  @@map("provinsi")
+}
+
+model Kabupaten {
+  id         String @id @db.Uuid
+  provinsiId String @map("provinsi_id")
+  nama       String
+
+  @@map("kabupaten")
+}
+
+model Distrik {
+  id          String @id @db.Uuid
+  kabupatenId String @map("kabupaten_id")
+  nama        String
+
+  @@map("distrik")
+}
+
+model Kampung {
+  id        String @id @db.Uuid
+  distrikId String @map("distrik_id")
+  nama      String
+
+  @@map("kampung")
+}
+
+model JenisPajak {
+  id                  String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  namaPajak           String @map("nama_pajak")
+  deskripsiPajak      String @map("deskripsi_pajak")
+  tataCaraHitungPajak String @map("tata_cara_hitung_pajak")
+
+  @@map("jenis_pajak")
+}
+
+model Pegawai {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nip            String
+  namaPegawai    String    @map("nama_pegawai")
+  email          String
+  password       String
+  nik            String
+  namaKtp        String    @map("nama_ktp")
+  npwp           Int?
+  namaWajibPajak String    @map("nama_wajib_pajak")
+  jenisKelamin   String    @map("jenis_kelamin")
+  statusNikah    String    @map("status_nikah")
+  jmlTanggungan  Int       @default(0) @map("jml_tanggungan")
+  tglMasuk       DateTime  @map("tgl_masuk")
+  tglBerakhir    DateTime? @map("tgl_berakhir")
+  bankTransfer   String    @map("bank_transfer")
+  noRekening     Int       @map("no_rekening")
+  namaRekening   String    @map("nama_rekening")
+  statusPegawai  String    @map("status_pegawai")
+
+  @@map("pegawai")
+}
+
+model TarifProgresif {
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  lapisan          Int
+  batasBawah       Float?   @map("batas_bawah")
+  batasAtas        Float?   @map("batas_atas")
+  tarifUuhpp       Float    @map("tarif_uuhpp")
+  tarifDisesuaikan Float    @map("tarif_disesuaikan")
+  createdAt        DateTime @map("created_at")
+  updatedAt        DateTime @map("updated_at")
+
+  @@map("tarif_progresif")
+}
+
+model ObjekPajak {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  jenisPajakId String   @map("jenis_pajak_id")
+  objekPajak   String   @map("objek_pajak")
+  tarifNpwp    Float    @map("tarif_npwp")
+  tarifNonNpwp Float    @map("tarif_non_npwp")
+  createdAt    DateTime @map("created_at")
+  updatedAt    DateTime @map("updated_at")
+
+  @@map("objek_pajak")
+}
+
+model SatuanKerja {
+  id              String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  idl             String
+  namaSatuanKerja String @map("nama_satuan_kerja")
+  akronim         String
+
+  @@map("satuan_kerja")
+}
+
+model Agent {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pegawaiId     String   @map("pegawai_id")
+  satuanKerjaId String   @map("satuan_kerja_id")
+  statusAgent   String   @map("status_agent")
+  createdAt     DateTime @map("created_at")
+  updatedAt     DateTime @map("updated_at")
+
+  @@map("agent")
+}
+
+model Pengelola {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pegawaiId       String   @map("pegawai_id")
+  level           String
+  statusPengelola String   @map("status_pengelola")
+  createdAt       DateTime @map("created_at")
+  updatedAt       DateTime @map("updated_at")
+
+  @@map("pengelola")
+}
+
+model PengajuanAnggaran {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  satuanKerjaId String   @map("satuan_kerja_id")
+  noPengajuan   Int      @map("no_pengajuan")
+  namaKegiatan  String   @map("nama_kegiatan")
+  createdAt     DateTime @map("created_at")
+  updatedAt     DateTime @map("updated_at")
+
+  @@map("pengajuan_anggaran")
+}
+
+model TarifProgresifPegawaiTetap {
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pegawaiId        String   @map("pegawai_id")
+  tarifProgresifId String   @map("tarif_progresif_id")
+  nominalPkp       Float    @map("nominal_pkp")
+  createdAt        DateTime @map("created_at")
+  updatedAt        DateTime @map("updated_at")
+
+  @@map("tarif_progresif_pegawai_tetap")
+}
+
+model Bank {
+  id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  kodeBank Int    @map("kode_bank")
+  namaBank String @map("nama_bank")
+
+  @@map("bank")
+}
+
+model WajibPajakOrangPribadi {
+  id                     String @id @map("id") @db.Uuid
+  nama                   String
+  email                  String
+  password               String
+  kewarganegaraan        String
+  negara                 String
+  idOrangPribadi         Int    @map("id_orang_pribadi")
+  namaKtp                String @map("nama_ktp")
+  npwp                   Int?
+  namaNpwp               String @map("nama_npwp")
+  kotaNpwp               String @map("kota_npwp")
+  namaBank               String @map("nama_bank")
+  noRekening             Int    @map("no_rekening")
+  namaRekening           String @map("nama_rekening")
+  nip                    String
+  statusPegawai          String @map("status_pegawai")
+  fileFotoNpwp           String @map("file_foto_npwp")
+  fileFotoIdOrangPribadi String @map("file_foto_id_orang_pribadi")
+  fileFotoBuktiRekening  String @map("file_foto_bukti_rekening")
+  statusWpop             String @map("status_wpop")
+
+  @@map("wajib_pajak_orang_pribadi")
+}
+
+model WajibPajakBadanUsaha {
+  id                     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  namaBadan              String @map("nama_badan")
+  email                  String
+  npwp                   Int?
+  namaNpwp               String @map("nama_npwp")
+  kotaNpwp               String @map("kota_npwp")
+  namaBank               String @map("nama_bank")
+  noRekening             Int    @map("no_rekening")
+  namaRekening           String @map("nama_rekening")
+  narahubung             String @map("narahubung")
+  skbPph23               String @map("skb_pph23")
+  masaBerlakuBebasPph23  Int    @map("masa_berlaku_bebas_pph23")
+  fileFotoIdentitasBadan String @map("file_foto_identitas_badan")
+  fileFotoBuktiRekening  String @map("file_foto_bukti_rekening")
+  fileFotoNpwp           String @map("file_foto_npwp")
+  fileSuratBebasPph23    String @map("file_surat_bebas_pph23")
+  statusPkp              String @map("status_pkp")
+
+  @@map("wajib_pajak_badan_usaha")
+}
+
+model KegiatanPenghasilanOrangPajak {
+  id                      String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  idKegiatanAnggaran      String   @map("id_kegiatan_anggaran")
+  uraianKegiatan          String   @map("uraian_kegiatan")
+  tanggalPenghasilan      DateTime @map("tanggal_penghasilan")
+  jenisPajakId            String   @map("jenis_pajak_id")
+  tanggalPemotonganPph    DateTime @map("tanggal_pemotongan_pph")
+  tanggalSetorPph         DateTime @map("tanggal_setor_pph")
+  tanggalBayarPph         DateTime @map("tanggal_bayar_pph")
+  mintaBillingSendiri     String   @map("minta_billing_sendiri")
+  idBilling               String   @map("id_billing")
+  ntpn                    String
+  picPencairanPenghasilan String   @map("pic_pencairan_penghasilan")
+
+  @@map("kegiatan_penghasilan_orang_pajak")
+}
+
+model ItemKegiatanPenghasilanOrangPajak {
+  id                              String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  kegiatanPenghasilanOrangPajakId String @map("kegiatan_penghasilan_orang_pajak_id")
+  objekPajakId                    String @map("objek_pajak_id")
+  statusPegawai                   String @map("status_pegawai")
+  npwp                            Int
+  namaBank                        String @map("nama_bank")
+  noRekening                      Int    @map("no_rekening")
+  namaRekening                    String @map("nama_rekening")
+  penghasilanBruto                Float  @map("penghasilan_bruto")
+  tarifBerlaku                    Float  @map("tarif_berlaku")
+  metodePotong                    String @map("metode_potong")
+  fileBuktiPotong                 String @map("file_bukti_potong")
+  statusItemKegiatan              String @map("status_item_kegiatan")
+
+  @@map("item_kegiatan_penghasilan_orang_pajak")
+}
+
+model KegiatanPenghasilanBadan {
+  id                     String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  idKegiatanAnggaran     String   @map("id_kegiatan_anggaran")
+  uraianKegiatan         String   @map("uraian_kegiatan")
+  tanggalTransaksi       DateTime @map("tanggal_transaksi")
+  jenisPajakId           String   @map("jenis_pajak_id")
+  wajibPajakBadanUsahaId String   @map("wajib_pajak_badan_usaha_id")
+  penghasilanBruto       Float    @map("penghasilan_bruto")
+  objekPajakId           String   @map("objek_pajak_id")
+  tarifPajak             Float    @map("tarif_pajak")
+  tanggalPemotonganPph   DateTime @map("tanggal_pemotongan_pph")
+  tanggalSetorPph        DateTime @map("tanggal_setor_pph")
+  tanggalBayarPph        DateTime @map("tanggal_bayar_pph")
+  noRekening             Int      @map("no_rekening")
+  namaRekening           String   @map("nama_rekening")
+  narahubung             String
+  fileBuktiPotong        String   @map("file_bukti_potong")
+
+  @@map("kegiatan_penghasilan_badan")
+}
+
+model DetailFilePendukung {
+  id                              String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  kegiatanPenghasilanOrangPajakId String @map("kegaiatan_penghasilan_orang_pajak_id")
+  jenisDokumen                    String @map("jenis_dokumen")
+  noDokumen                       Int    @map("no_dokumen")
+  fileBuktiPendukung              String @map("file_bukti_pendukung")
+
+  @@map("detail_file_pendukung")
+}
+
+model InventarisasiPajak {
+  id                 String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  jenisPajakId       String   @map("jenis_pajak_id")
+  uraianKegiatan     String   @map("uraian_kegiatan")
+  idKegiatanAnggaran String   @map("id_kegiatan_anggaran")
+  tanggalTransaksi   DateTime @map("tanggal_transaksi")
+  penghasilanBruto   Float    @map("penghasilan_bruto")
+  nominalPajak       Float    @map("nominal_pajak")
+  npwpPemotong       Int      @map("npwp_pemotong")
+  namaPemotong       String   @map("nama_pemotong")
+  fileBukti          String   @map("file_bukti")
+
+  @@map("inventarisasi_pajak")
+}
+
+model LogKegiatanPenghasilanOrangPajak {
+  id                              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  jenisPajakId                    String   @map("jenis_pajak_id")
+  kegiatanPenghasilanOrangPajakId String   @map("kegiatan_penghasilan_orang_pajak_id")
+  uraianKegiatan                  String   @map("uraian_kegiatan")
+  tanggalBayarOp                  DateTime @map("tanggal_bayar_op")
+  idKegiatanAnggaran              String   @map("id_kegiatan_anggaran")
+  tanggalPemotonganPph            DateTime @map("tanggal_pemotongan_pph")
+  tanggalSetorPph                 DateTime @map("tanggal_setor_pph")
+  tanggalBayarPph                 DateTime @map("tanggal_bayar_pph")
+  mintaBillingSendiri             String   @map("minta_billing_sendiri")
+  idBilling                       String   @map("id_billing")
+  ntpn                            String
+  nipLog                          String   @map("nip_log")
+
+  @@map("log_kegiatan_penghasilan_orang_pajak")
+}
