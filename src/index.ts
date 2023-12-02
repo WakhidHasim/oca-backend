@@ -14,6 +14,7 @@ app.use('/jenis-pajak', jenisPajakRoutes);
 app.use('kegiatan-orang-pajak', kegiatanOrangPajakRoutes);
 app.use('kegiatan-badan-usaha', kegiatanBadanUsahaRoutes);
 app.use('/wajib-pajak-badan-usaha', wajibPajakBadanUsahaRoutes);
+app.use('/wajib-pajak-orang-pribadi', wajibPajakBadanUsahaRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

@@ -6,6 +6,7 @@ export const createWajibPajakOrangPribadiSchema = z.object({
   password: z.string().max(255).optional(),
   kewarganegaraan: z.string().max(5),
   id_orang_pribadi: z.string().max(50),
+  negara: z.string().max(50),
   nama_ktp: z.string().max(100),
   npwp: z.number().max(50).optional(),
   nama_npwp: z.string().max(100).optional(),

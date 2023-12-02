@@ -168,13 +168,13 @@ model Bank {
 }
 
 model WajibPajakOrangPribadi {
-  id                     String  @id @map("id") @db.Uuid
+  id                     String  @id @default(uuid())
   nama                   String
   email                  String
   password               String?
   kewarganegaraan        String
   negara                 String
-  idOrangPribadi         Int     @map("id_orang_pribadi")
+  idOrangPribadi         String  @map("id_orang_pribadi")
   namaKtp                String  @map("nama_ktp")
   npwp                   Int?
   namaNpwp               String? @map("nama_npwp")
@@ -182,7 +182,7 @@ model WajibPajakOrangPribadi {
   namaBank               String? @map("nama_bank")
   noRekening             Int?    @map("no_rekening")
   namaRekening           String? @map("nama_rekening")
-  nip                    String
+  nip                    String?
   statusPegawai          String  @map("status_pegawai")
   fileFotoNpwp           String? @map("file_foto_npwp")
   fileFotoIdOrangPribadi String  @map("file_foto_id_orang_pribadi")
