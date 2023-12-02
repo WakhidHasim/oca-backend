@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { WajibPajakBadanUsaha } from "../entities/WajibPajakBadanUsaha"
+import { WajibPajakBadanUsaha } from '../entities/WajibPajakBadanUsaha';
 
 const prisma = new PrismaClient();
 
@@ -23,7 +23,8 @@ type GetWajibPajakBadanUsahaParam = {
   status_pkp?: string;
 };
 
-type CreateWajibPajakBadanUsahaParam = WajibPajakBadanUsaha
+type CreateWajibPajakBadanUsahaParam = WajibPajakBadanUsaha;
+type UpdatedWajibPajakBadanUsahaParam = WajibPajakBadanUsaha;
 
 export const createWajibPajakBadanUsaha = async (
   data: CreateWajibPajakBadanUsahaParam
@@ -100,11 +101,9 @@ export const getWajibPajakBadanUsaha = async (
   });
 };
 
-type UpdateWajibPajakBadanUsahaParam = WajibPajakBadanUsaha
-
 export const updateWajibPajakBadanUsaha = async (
   id: string,
-  data: UpdateWajibPajakBadanUsahaParam
+  data: UpdatedWajibPajakBadanUsahaParam
 ) => {
   const updatedWajibPajakBadanUsaha = await prisma.wajibPajakBadanUsaha.update({
     where: { id: id },

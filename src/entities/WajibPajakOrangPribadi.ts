@@ -1,0 +1,21 @@
+export type WajibPajakOrangPribadi = {
+  nama?: string;
+  email: string;
+  password?: string;
+  kewarganegaraan: string;
+  negara: string;
+  id_orang_pribadi: string;
+  nama_ktp: string;
+  npwp?: number;
+  nama_npwp?: string;
+  kota_npwp?: string;
+  nama_bank?: string;
+  no_rekening?: number;
+  nama_rekening?: string;
+  nip?: string;
+  status_pegawai: string;
+  file_foto_npwp?: string;
+  file_foto_id_orang_pribadi: string;
+  file_foto_bukti_rekening?: string;
+  status_wpop: string;
+};

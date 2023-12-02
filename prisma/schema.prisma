@@ -168,26 +168,26 @@ model Bank {
 }
 
 model WajibPajakOrangPribadi {
-  id                     String @id @map("id") @db.Uuid
+  id                     String  @id @map("id") @db.Uuid
   nama                   String
   email                  String
-  password               String
+  password               String?
   kewarganegaraan        String
   negara                 String
-  idOrangPribadi         Int    @map("id_orang_pribadi")
-  namaKtp                String @map("nama_ktp")
+  idOrangPribadi         Int     @map("id_orang_pribadi")
+  namaKtp                String  @map("nama_ktp")
   npwp                   Int?
-  namaNpwp               String @map("nama_npwp")
-  kotaNpwp               String @map("kota_npwp")
-  namaBank               String @map("nama_bank")
-  noRekening             Int    @map("no_rekening")
-  namaRekening           String @map("nama_rekening")
+  namaNpwp               String? @map("nama_npwp")
+  kotaNpwp               String? @map("kota_npwp")
+  namaBank               String? @map("nama_bank")
+  noRekening             Int?    @map("no_rekening")
+  namaRekening           String? @map("nama_rekening")
   nip                    String
-  statusPegawai          String @map("status_pegawai")
-  fileFotoNpwp           String @map("file_foto_npwp")
-  fileFotoIdOrangPribadi String @map("file_foto_id_orang_pribadi")
-  fileFotoBuktiRekening  String @map("file_foto_bukti_rekening")
-  statusWpop             String @map("status_wpop")
+  statusPegawai          String  @map("status_pegawai")
+  fileFotoNpwp           String? @map("file_foto_npwp")
+  fileFotoIdOrangPribadi String  @map("file_foto_id_orang_pribadi")
+  fileFotoBuktiRekening  String? @map("file_foto_bukti_rekening")
+  statusWpop             Boolean @map("status_wpop")
 
   @@map("wajib_pajak_orang_pribadi")
 }
